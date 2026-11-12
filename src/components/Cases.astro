@@ -1,0 +1,27 @@
+---
+import { cases } from '../data/site';
+import CaseStudy from './CaseStudy.astro';
+---
+
+<section id="casos" class="cases">
+  <div class="container intro">
+    <p class="eyebrow">Casos</p>
+    <h2 class="h2">Problemas reales y cómo los resuelvo.</h2>
+  </div>
+  {cases.map((item, index) => <CaseStudy item={item} index={index} />)}
+</section>
+
+<style>
+  .cases {
+    padding-top: 96px;
+  }
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 40px;
+  }
+  .intro .h2 {
+    max-width: 720px;
+  }
+</style>

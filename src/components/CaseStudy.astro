@@ -1,0 +1,172 @@
+---
+import type { CaseStudy } from '../data/site';
+import CaseVisual from './CaseVisual.astro';
+
+interface Props {
+  item: CaseStudy;
+  index: number;
+}
+const { item, index } = Astro.props;
+const number = String(index + 1).padStart(2, '0');
+---
+
+<article class:list={['case container', { reverse: index % 2 === 1 }]} id={item.id}>
+  <div class="copy">
+    <p class="meta">{number} · {item.meta}</p>
+    <h3 class="title serif">{item.title}</h3>
+    <p class="summary">{item.summary}</p>
+
+    <ul class="points">
+      {item.keyPoints.map((p) => <li>{p}</li>)}
+    </ul>
+
+    {
+      item.status && (
+        <p class="status">
+          <span class="dot" aria-hidden="true" />
+          <span><strong>Ahora mismo:</strong> {item.status}</span>
+        </p>
+      )
+    }
+
+    <p class="stack">{item.stack.join(' · ')}</p>
+
+    {
+      (item.demo || item.repo) && (
+        <div class="actions">
+          {item.demo && (
+            <a class="btn btn-secondary" href={item.demo} target="_blank" rel="noopener noreferrer">
+              Probar la demo ↗
+            </a>
+          )}
+          {item.repo && (
+            <a class="btn btn-secondary" href={item.repo} target="_blank" rel="noopener noreferrer">
+              Ver código y documentación ↗
+            </a>
+          )}
+        </div>
+      )
+    }
+    {!item.repo && <p class="soon">{item.privateCode ? 'Proyecto real · código privado' : 'Repositorio en GitHub · próximamente'}</p>}
+  </div>
+
+  <div class="visual-wrap">
+    <CaseVisual visual={item.visual} />
+  </div>
+</article>
+
+<style>
+  .case {
+    padding-block: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px;
+    align-items: center;
+  }
+  .reverse {
+    flex-direction: row-reverse;
+  }
+  .copy {
+    flex: 1 1 440px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .meta {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .title {
+    font-size: 36px;
+    line-height: 1.12;
+  }
+  .summary {
+    font-size: 17px;
+    color: var(--text);
+  }
+  .points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .points li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .status {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--text);
+  }
+  .status strong {
+    color: var(--ink);
+  }
+  .dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(37, 89, 232, 0.15);
+    transform: translateY(-1px);
+  }
+  .stack {
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .soon {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .visual-wrap {
+    flex: 1 1 480px;
+    min-width: 0;
+  }
+  @media (max-width: 1000px) {
+    .case,
+    .reverse {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 32px;
+    }
+    .copy,
+    .visual-wrap {
+      flex: none;
+    }
+  }
+  @media (max-width: 560px) {
+    .title {
+      font-size: 30px;
+    }
+  }
+</style>

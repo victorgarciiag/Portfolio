@@ -1,0 +1,101 @@
+---
+interface Props {
+  title: string;
+  caption: string;
+  unit?: string;
+  bars: { label: string; value: number; highlight?: boolean }[];
+}
+const { title, caption, unit, bars } = Astro.props;
+const max = Math.max(...bars.map((b) => b.value));
+const fmt = new Intl.NumberFormat('es-ES');
+---
+
+<figure class="chart">
+  <figcaption class="head">
+    <strong>{title}</strong>
+    <span>{caption}</span>
+  </figcaption>
+  <ul class="bars">
+    {
+      bars.map((b) => (
+        <li class:list={{ highlight: b.highlight }}>
+          <span class="row">
+            <span class="label">{b.label}</span>
+            {unit && (
+              <span class="value">
+                {fmt.format(b.value)} {unit}
+              </span>
+            )}
+          </span>
+          <span class="track" aria-hidden="true">
+            <span class="fill" style={`width:${(b.value / max) * 100}%`} />
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</figure>
+
+<style>
+  .chart {
+    margin: 0;
+    padding: 24px;
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .head span {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .bars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .value {
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+  .track {
+    display: block;
+    height: 10px;
+    border-radius: 5px;
+    background: #eef1f6;
+  }
+  .fill {
+    display: block;
+    height: 10px;
+    border-radius: 5px;
+    background: #a9c0f6;
+  }
+  .highlight .fill {
+    background: var(--accent);
+  }
+  .highlight .label,
+  .highlight .value {
+    color: var(--ink);
+    font-weight: 700;
+  }
+</style>

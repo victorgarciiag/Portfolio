@@ -1,0 +1,60 @@
+---
+import { steps } from '../data/site';
+---
+
+<section class="method">
+  <div class="container inner">
+    <h2 class="h2">Cómo trabajo</h2>
+    <ol class="steps">
+      {
+        steps.map((s, i) => (
+          <li>
+            <span class="n serif">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .method {
+    padding-block: 88px;
+    background: var(--surface);
+    border-block: 1px solid var(--line);
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: 32px;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .n {
+    font-style: italic;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  h3 {
+    font-size: 19px;
+    font-weight: 700;
+  }
+  p {
+    font-size: 15px;
+    color: var(--muted);
+  }
+</style>

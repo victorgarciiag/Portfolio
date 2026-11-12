@@ -1,0 +1,75 @@
+---
+import { site } from '../data/site';
+
+const links = [
+  { href: '/#servicios', label: 'Servicios' },
+  { href: '/#casos', label: 'Casos' },
+  { href: '/#sobre-mi', label: 'Sobre mí' },
+];
+---
+
+<header class="header">
+  <nav class="container nav" aria-label="Principal">
+    <a href="/" class="brand">
+      <span class="brand-name">{site.name}</span>
+      <span class="brand-tag">{site.tagline}</span>
+    </a>
+    <div class="links">
+      {links.map((l) => <a class="link" href={l.href}>{l.label}</a>)}
+      <a class="btn btn-primary cta" href="#contacto">Contactar</a>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .header {
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    padding-block: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .brand-name {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 22px;
+  }
+  .brand-tag {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 28px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .link {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .link:hover {
+    color: var(--ink);
+  }
+  .cta {
+    padding: 11px 20px;
+  }
+  @media (max-width: 560px) {
+    .links {
+      gap: 18px;
+    }
+  }
+</style>

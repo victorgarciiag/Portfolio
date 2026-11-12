@@ -1,0 +1,30 @@
+---
+import type { CaseStudy } from '../data/site';
+import FlowVisual from './visuals/FlowVisual.astro';
+import PhoneVisual from './visuals/PhoneVisual.astro';
+import ChartVisual from './visuals/ChartVisual.astro';
+
+interface Props {
+  visual: CaseStudy['visual'];
+}
+const { visual: v } = Astro.props;
+---
+
+<div class="visual">
+  {v.type === 'flow' && <FlowVisual steps={v.steps} />}
+  {v.type === 'phone' && <PhoneVisual />}
+  {v.type === 'chart' && <ChartVisual title={v.title} caption={v.caption} unit={v.unit} bars={v.bars} />}
+</div>
+
+<style>
+  .visual {
+    padding: 40px 32px;
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+  }
+  @media (max-width: 560px) {
+    .visual {
+      padding: 28px 18px;
+    }
+  }
+</style>

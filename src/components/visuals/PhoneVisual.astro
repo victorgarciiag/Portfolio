@@ -1,0 +1,154 @@
+---
+// Maqueta ilustrativa del parte de jornada agrícola (datos inventados). Sustitúyela por una captura real cuando la tengas.
+const tasks = [
+  { name: 'Poda', plot: 'Parcela Norte', hours: '4 h' },
+  { name: 'Tratamiento', plot: 'Parcela Sur', hours: '3 h', extra: 'Fitosanitario · 20 L' },
+];
+---
+
+<div class="phone" role="img" aria-label="Maqueta de la aplicación: formulario de parte de jornada desde el móvil">
+  <div class="bar">
+    <strong>Parte de jornada</strong>
+    <span>Hoy</span>
+  </div>
+  <div class="body">
+    <div class="field">
+      <span class="label">Trabajadores</span>
+      <div class="chips"><span>Trabajador 1</span><span>Trabajador 2</span></div>
+    </div>
+
+    <div class="times">
+      <div class="field"><span class="label">Entrada</span><span class="input">08:00</span></div>
+      <div class="field"><span class="label">Salida</span><span class="input">15:30</span></div>
+      <div class="field"><span class="label">Horas</span><span class="input calc">7 h</span></div>
+    </div>
+
+    <span class="label">Tareas</span>
+    {
+      tasks.map((t) => (
+        <div class="task">
+          <div class="task-row">
+            <strong>{t.name}</strong>
+            <span class="hours">{t.hours}</span>
+          </div>
+          <span class="plot">{t.plot}</span>
+          {t.extra && <span class="extra">{t.extra}</span>}
+        </div>
+      ))
+    }
+    <span class="submit">Revisar y enviar</span>
+  </div>
+</div>
+
+<style>
+  .phone {
+    width: 100%;
+    max-width: 320px;
+    margin-inline: auto;
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .bar {
+    padding: 16px 20px;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+  }
+  .bar span {
+    font-size: 13px;
+    color: var(--on-navy);
+  }
+  .body {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chips span {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e6ecff;
+    color: var(--accent-hover);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .times {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .input {
+    padding: 8px 10px;
+    border-radius: var(--radius);
+    border: 1px solid #d5dbe5;
+    font-size: 14px;
+  }
+  .calc {
+    background: #e3f2ea;
+    border-color: #e3f2ea;
+    color: var(--success);
+    font-weight: 700;
+  }
+  .task {
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    border: 1px solid #e1e5ec;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14px;
+  }
+  .task-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  .hours {
+    font-weight: 700;
+    color: var(--success);
+  }
+  .plot {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .extra {
+    margin-top: 4px;
+    align-self: flex-start;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #fdf1dc;
+    color: #8a5a00;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .submit {
+    margin-top: 6px;
+    padding: 12px;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+</style>
