@@ -141,6 +141,7 @@ export const cases: CaseStudy[] = [
     ],
     status: 'Consultas al back office en lenguaje natural (servidor MCP)',
     stack: ['Java 21', 'Spring Boot 3', 'Angular 18', 'PostgreSQL 16', 'n8n', 'Claude API', 'Docker Compose'],
+    repo: 'https://github.com/victorgarciiag/Automatizaciones-Correduria-de-Seguros',
     visual: {
       type: 'flow',
       steps: [
