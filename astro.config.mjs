@@ -2,6 +2,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // Cambia esto por tu dominio cuando lo tengas (se usa para la URL canónica y las meta tags)
-  site: 'https://example.com',
+  // Dominio público: se usa para la URL canónica y la imagen al compartir
+  site: 'https://victorgarciia.dev',
 });
