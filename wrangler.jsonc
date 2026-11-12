@@ -2,6 +2,8 @@
   // Configuración de Cloudflare Workers: sirve la web estática generada por Astro en dist/
   "name": "portfolio",
   "compatibility_date": "2026-10-01",
+  "workers_dev": true, // dirección *.workers.dev (útil para pruebas)
+  "preview_urls": true, // URL de prueba para cada rama
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"
