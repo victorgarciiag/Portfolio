@@ -15,6 +15,17 @@
   --accent-hover: #163fb0;
   --accent-soft: #9db8ff;
   --success: #1d7a4e;
+  --on-accent: #ffffff;
+  --subtle: #eef1f6;
+  --hover: #e6eaf1;
+  --accent-tint: #e6ecff;
+  --accent-ring: rgba(37, 89, 232, 0.15);
+  --success-soft: #e3f2ea;
+  --warning: #8a5a00;
+  --warning-soft: #fdf1dc;
+  --bar: #a9c0f6;
+  --connector: #9fb0c8;
+  --shadow-sm: 0 2px 8px rgba(14, 27, 44, 0.06);
 
   --font-sans: 'Manrope Variable', system-ui, sans-serif;
   --font-serif: 'Newsreader Variable', Georgia, serif;
@@ -23,6 +34,40 @@
   --radius-lg: 16px;
   --shadow: 0 12px 32px rgba(14, 27, 44, 0.12);
   --container: 1200px;
+  color-scheme: light;
+}
+
+/* Modo noche: mismos nombres de variable, otros valores */
+:root[data-theme='dark'] {
+  --bg: #0b1422;
+  --surface: #121d2f;
+  --panel: #172539;
+  --ink: #e8edf5;
+  --text: #c5cedc;
+  --muted: #97a3b6;
+  --line: #223047;
+  --line-strong: #33445f;
+  --navy: #0f2240;
+  --navy-2: #173158;
+  --navy-line: #2a4a78;
+  --on-navy: #c8d4e8;
+  --accent: #6f9bff;
+  --accent-hover: #9db8ff;
+  --accent-soft: #9db8ff;
+  --success: #5fd39a;
+  --on-accent: #0b1422;
+  --subtle: #1a2840;
+  --hover: #1d2c45;
+  --accent-tint: rgba(111, 155, 255, 0.16);
+  --accent-ring: rgba(111, 155, 255, 0.25);
+  --success-soft: rgba(95, 211, 154, 0.14);
+  --warning: #f5c46b;
+  --warning-soft: rgba(245, 196, 107, 0.14);
+  --bar: #3d5a91;
+  --connector: #3a4e6e;
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color-scheme: dark;
 }
 
 *,
@@ -103,15 +148,15 @@ h3 {
   border: 1px solid transparent;
   font-weight: 700;
   text-decoration: none;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .btn-primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
 }
 .btn-primary:hover {
   background: var(--accent-hover);
-  color: #fff;
+  color: var(--on-accent);
 }
 .btn-secondary {
   background: var(--surface);
@@ -119,7 +164,7 @@ h3 {
   color: var(--ink);
 }
 .btn-secondary:hover {
-  background: #e6eaf1;
+  background: var(--hover);
   color: var(--ink);
 }
 .btn-light {

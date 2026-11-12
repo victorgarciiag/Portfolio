@@ -48,7 +48,7 @@ const icons: Record<FlowStep['icon'], string> = {
     padding: 16px 18px;
     border-radius: 10px;
     background: var(--surface);
-    box-shadow: 0 2px 8px rgba(14, 27, 44, 0.06);
+    box-shadow: var(--shadow-sm);
   }
   .step:not(:last-child)::after {
     content: '';
@@ -57,15 +57,15 @@ const icons: Record<FlowStep['icon'], string> = {
     bottom: -22px;
     width: 2px;
     height: 22px;
-    background: #9fb0c8;
+    background: var(--connector);
   }
   .icon {
     width: 36px;
     height: 36px;
     flex: none;
     border-radius: 8px;
-    background: #eef1f6;
-    color: var(--navy);
+    background: var(--subtle);
+    color: var(--ink);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,13 +89,13 @@ const icons: Record<FlowStep['icon'], string> = {
   }
   .highlight .icon {
     background: var(--accent);
-    color: #fff;
+    color: var(--on-accent);
   }
   .highlight .text span {
     color: var(--on-navy);
   }
   .icon-check .icon {
-    background: #e3f2ea;
+    background: var(--success-soft);
     color: var(--success);
   }
 </style>

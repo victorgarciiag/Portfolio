@@ -88,7 +88,7 @@ const tasks = [
   .chips span {
     padding: 4px 10px;
     border-radius: 999px;
-    background: #e6ecff;
+    background: var(--accent-tint);
     color: var(--accent-hover);
     font-size: 13px;
     font-weight: 600;
@@ -101,19 +101,19 @@ const tasks = [
   .input {
     padding: 8px 10px;
     border-radius: var(--radius);
-    border: 1px solid #d5dbe5;
+    border: 1px solid var(--line-strong);
     font-size: 14px;
   }
   .calc {
-    background: #e3f2ea;
-    border-color: #e3f2ea;
+    background: var(--success-soft);
+    border-color: transparent;
     color: var(--success);
     font-weight: 700;
   }
   .task {
     padding: 10px 12px;
     border-radius: var(--radius);
-    border: 1px solid #e1e5ec;
+    border: 1px solid var(--line);
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -136,8 +136,8 @@ const tasks = [
     align-self: flex-start;
     padding: 2px 8px;
     border-radius: 6px;
-    background: #fdf1dc;
-    color: #8a5a00;
+    background: var(--warning-soft);
+    color: var(--warning);
     font-size: 12px;
     font-weight: 600;
   }
@@ -146,7 +146,7 @@ const tasks = [
     padding: 12px;
     border-radius: var(--radius);
     background: var(--accent);
-    color: #fff;
+    color: var(--on-accent);
     text-align: center;
     font-weight: 700;
     font-size: 14px;
