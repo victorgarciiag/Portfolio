@@ -146,6 +146,9 @@ const hasTabs = media.length > 0;
   }
   .tabs {
     align-self: flex-start;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
     display: inline-flex;
     gap: 4px;
     padding: 4px;
@@ -161,6 +164,8 @@ const hasTabs = media.length > 0;
     color: var(--muted);
     padding: 7px 16px;
     border-radius: 999px;
+    white-space: nowrap;
+    flex: none;
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
   }

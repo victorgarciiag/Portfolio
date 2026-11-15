@@ -152,10 +152,24 @@ export const cases: CaseStudy[] = [
     media: [
       {
         type: 'video',
-        label: 'Vídeo',
+        label: 'Presupuestos',
         src: '/videos/correduria-demo.mp4',
         poster: '/videos/correduria-demo-poster.jpg',
         caption: 'Comparativa de presupuestos y alta de pólizas, grabadas en local con datos ficticios.',
+      },
+      {
+        type: 'video',
+        label: 'Emails',
+        src: '/videos/clasificador-emails.mp4',
+        poster: '/videos/clasificador-emails-poster.jpg',
+        caption: 'La IA clasifica y redacta, el código detecta que el remitente no es el cliente y una persona aprueba la respuesta. Datos ficticios.',
+      },
+      {
+        type: 'video',
+        label: 'Asistente',
+        src: '/videos/asistente.mp4',
+        poster: '/videos/asistente-poster.jpg',
+        caption: 'Preguntas en lenguaje natural: decide qué consultar, avisa de lo que no cuadra y, si no tiene el dato, no lo inventa. Datos ficticios.',
       },
     ],
     visual: {
