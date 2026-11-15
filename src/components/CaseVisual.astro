@@ -10,8 +10,10 @@ interface Props {
   id?: string;
 }
 const { visual: v, media = [], id = 'caso' } = Astro.props;
-const tabs = [...media.map((m) => m.label), 'Cómo funciona'];
-const hasTabs = media.length > 0;
+// Con vídeos o capturas se muestran solo ellos (con pestañas si hay varios); sin ellos, el esquema.
+const tabs = media.map((m) => m.label);
+const hasMedia = media.length > 0;
+const hasTabs = media.length > 1;
 ---
 
 <div class="case-visual" data-case-visual>
@@ -37,7 +39,7 @@ const hasTabs = media.length > 0;
   <div class="panes">
     {
       media.map((m, i) => (
-        <figure class="pane media" role="tabpanel" id={`${id}-pane-${i}`} aria-labelledby={`${id}-tab-${i}`} data-active={i === 0 ? 'true' : 'false'}>
+        <figure class="pane media" role={hasTabs ? 'tabpanel' : undefined} id={`${id}-pane-${i}`} aria-labelledby={hasTabs ? `${id}-tab-${i}` : undefined} data-active={i === 0 ? 'true' : 'false'}>
           <div class="frame">
             {m.type === 'video' ? (
               <video muted loop playsinline preload="metadata" poster={m.poster} aria-label={m.caption ?? m.label}>
@@ -58,17 +60,15 @@ const hasTabs = media.length > 0;
       ))
     }
 
-    <div
-      class="pane visual"
-      role={hasTabs ? 'tabpanel' : undefined}
-      id={hasTabs ? `${id}-pane-${media.length}` : undefined}
-      aria-labelledby={hasTabs ? `${id}-tab-${media.length}` : undefined}
-      data-active={hasTabs ? 'false' : 'true'}
-    >
-      {v.type === 'flow' && <FlowVisual steps={v.steps} />}
-      {v.type === 'phone' && <PhoneVisual />}
-      {v.type === 'chart' && <ChartVisual title={v.title} caption={v.caption} unit={v.unit} bars={v.bars} />}
-    </div>
+    {
+      !hasMedia && (
+        <div class="pane visual" data-active="true">
+          {v.type === 'flow' && <FlowVisual steps={v.steps} />}
+          {v.type === 'phone' && <PhoneVisual />}
+          {v.type === 'chart' && <ChartVisual title={v.title} caption={v.caption} unit={v.unit} bars={v.bars} />}
+        </div>
+      )
+    }
   </div>
 </div>
 

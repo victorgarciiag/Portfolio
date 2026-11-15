@@ -104,8 +104,8 @@ export type FlowStep = {
   highlight?: boolean;
 };
 
-// Vídeos o capturas de un caso. Si hay alguno, el visual se muestra con pestañas
-// (los medios primero y el esquema al final como «Cómo funciona»).
+// Vídeos o capturas de un caso. Si hay alguno, se muestran en lugar del esquema
+// (con pestañas cuando hay más de uno).
 export type MediaItem =
   | { type: 'video'; label: string; src: string; poster: string; caption?: string }
   | { type: 'image'; label: string; src: string; alt: string; caption?: string };
