@@ -1,30 +1,255 @@
 ---
-import type { CaseStudy } from '../data/site';
+import type { CaseStudy, MediaItem } from '../data/site';
 import FlowVisual from './visuals/FlowVisual.astro';
 import PhoneVisual from './visuals/PhoneVisual.astro';
 import ChartVisual from './visuals/ChartVisual.astro';
 
 interface Props {
   visual: CaseStudy['visual'];
+  media?: MediaItem[];
+  id?: string;
 }
-const { visual: v } = Astro.props;
+const { visual: v, media = [], id = 'caso' } = Astro.props;
+const tabs = [...media.map((m) => m.label), 'Cómo funciona'];
+const hasTabs = media.length > 0;
 ---
 
-<div class="visual">
-  {v.type === 'flow' && <FlowVisual steps={v.steps} />}
-  {v.type === 'phone' && <PhoneVisual />}
-  {v.type === 'chart' && <ChartVisual title={v.title} caption={v.caption} unit={v.unit} bars={v.bars} />}
+<div class="case-visual" data-case-visual>
+  {
+    hasTabs && (
+      <div class="tabs" role="tablist" aria-label="Contenido del caso">
+        {tabs.map((label, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`${id}-tab-${i}`}
+            aria-controls={`${id}-pane-${i}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  <div class="panes">
+    {
+      media.map((m, i) => (
+        <figure class="pane media" role="tabpanel" id={`${id}-pane-${i}`} aria-labelledby={`${id}-tab-${i}`} data-active={i === 0 ? 'true' : 'false'}>
+          <div class="frame">
+            {m.type === 'video' ? (
+              <video muted loop playsinline preload="metadata" poster={m.poster} aria-label={m.caption ?? m.label}>
+                <source src={m.src} type="video/mp4" />
+              </video>
+            ) : (
+              <img src={m.src} alt={m.alt} loading="lazy" decoding="async" />
+            )}
+            {m.type === 'video' && (
+              <button type="button" class="expand" data-expand aria-label="Ver el vídeo en pantalla completa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg>
+                Ampliar
+              </button>
+            )}
+          </div>
+          {m.caption && <figcaption>{m.caption}</figcaption>}
+        </figure>
+      ))
+    }
+
+    <div
+      class="pane visual"
+      role={hasTabs ? 'tabpanel' : undefined}
+      id={hasTabs ? `${id}-pane-${media.length}` : undefined}
+      aria-labelledby={hasTabs ? `${id}-tab-${media.length}` : undefined}
+      data-active={hasTabs ? 'false' : 'true'}
+    >
+      {v.type === 'flow' && <FlowVisual steps={v.steps} />}
+      {v.type === 'phone' && <PhoneVisual />}
+      {v.type === 'chart' && <ChartVisual title={v.title} caption={v.caption} unit={v.unit} bars={v.bars} />}
+    </div>
+  </div>
 </div>
 
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-case-visual]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panes = [...root.querySelectorAll<HTMLElement>('.pane')];
+    let visible = false;
+
+    const sync = () => {
+      panes.forEach((pane) => {
+        const video = pane.querySelector('video');
+        if (!video) return;
+        const shouldPlay = visible && pane.dataset.active === 'true' && !reduced;
+        if (shouldPlay) video.play().catch(() => {});
+        else video.pause();
+      });
+    };
+
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        if (on && focus) tab.focus();
+      });
+      panes.forEach((pane, i) => (pane.dataset.active = String(i === index)));
+      sync();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const next = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        select(next, true);
+      });
+    });
+
+    root.querySelectorAll<HTMLButtonElement>('[data-expand]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const video = btn.parentElement?.querySelector('video') as (HTMLVideoElement & { webkitEnterFullscreen?: () => void }) | null;
+        if (!video) return;
+        video.controls = true;
+        video.play().catch(() => {});
+        if (video.requestFullscreen) video.requestFullscreen().catch(() => {});
+        else video.webkitEnterFullscreen?.();
+      });
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) root.querySelectorAll('video').forEach((v) => (v.controls = reduced));
+    });
+
+    if (reduced) root.querySelectorAll('video').forEach((v) => (v.controls = true));
+
+    new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0.35 },
+    ).observe(root);
+  });
+</script>
+
 <style>
-  .visual {
-    padding: 40px 32px;
+  .case-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tabs {
+    align-self: flex-start;
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--panel);
+  }
+  .tabs button {
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .tabs button:hover {
+    color: var(--ink);
+  }
+  .tabs button[aria-selected='true'] {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+  .pane {
+    margin: 0;
     border-radius: var(--radius-lg);
     background: var(--panel);
+  }
+  .pane[data-active='false'] {
+    display: none;
+  }
+  .pane[data-active='true'] {
+    animation: fade 0.25s ease;
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+  .visual {
+    padding: 40px 32px;
+  }
+  .media {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+  }
+  .frame {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #0f2747;
+    aspect-ratio: 16 / 9;
+    box-shadow: var(--shadow);
+  }
+  .frame video,
+  .frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .expand {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(15, 39, 71, 0.75);
+    color: #fff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+  }
+  .expand:hover {
+    background: rgba(15, 39, 71, 0.95);
+  }
+  figcaption {
+    font-size: 13px;
+    color: var(--muted);
+    padding: 0 4px;
   }
   @media (max-width: 560px) {
     .visual {
       padding: 28px 18px;
+    }
+    .media {
+      padding: 10px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pane[data-active='true'] {
+      animation: none;
     }
   }
 </style>

@@ -104,6 +104,12 @@ export type FlowStep = {
   highlight?: boolean;
 };
 
+// Vídeos o capturas de un caso. Si hay alguno, el visual se muestra con pestañas
+// (los medios primero y el esquema al final como «Cómo funciona»).
+export type MediaItem =
+  | { type: 'video'; label: string; src: string; poster: string; caption?: string }
+  | { type: 'image'; label: string; src: string; alt: string; caption?: string };
+
 export type CaseStudy = {
   id: string;
   meta: string;
@@ -115,6 +121,7 @@ export type CaseStudy = {
   repo?: string; // URL del repositorio público
   demo?: string; // URL de una demo navegable
   privateCode?: boolean; // código no público (proyectos reales para terceros)
+  media?: MediaItem[]; // vídeos o capturas (opcional); se añaden más y aparecen como pestañas
   visual:
     | { type: 'flow'; steps: FlowStep[] }
     | { type: 'phone' }
@@ -142,6 +149,15 @@ export const cases: CaseStudy[] = [
     status: 'Consultas al back office en lenguaje natural (servidor MCP)',
     stack: ['Java 21', 'Spring Boot 3', 'Angular 18', 'PostgreSQL 16', 'n8n', 'Claude API', 'Docker Compose'],
     repo: 'https://github.com/victorgarciiag/Automatizaciones-Correduria-de-Seguros',
+    media: [
+      {
+        type: 'video',
+        label: 'Vídeo',
+        src: '/videos/correduria-demo.mp4',
+        poster: '/videos/correduria-demo-poster.jpg',
+        caption: 'Comparativa de presupuestos y alta de pólizas, grabadas en local con datos ficticios.',
+      },
+    ],
     visual: {
       type: 'flow',
       steps: [
