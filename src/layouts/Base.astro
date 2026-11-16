@@ -10,9 +10,19 @@ interface Props {
   description?: string;
 }
 
-const { title = `${site.name} — ${site.role}`, description = site.description } = Astro.props;
+const { title = `${site.fullName} — ${site.role}`, description = site.description } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.fullName,
+  url: Astro.site?.href,
+  image: ogImage,
+  jobTitle: site.role,
+  address: { '@type': 'PostalAddress', addressLocality: 'Sevilla', addressCountry: 'ES' },
+  sameAs: [site.linkedin, site.github],
+};
 ---
 
 <!doctype html>
@@ -48,9 +58,10 @@ const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${site.name} — ${site.role}`} />
+    <meta property="og:image:alt" content={`${site.fullName} — ${site.role}`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
   </head>
   <body>
     <slot />

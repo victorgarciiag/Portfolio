@@ -21,7 +21,7 @@ export const hero = {
   title: 'Aplicaciones web, automatización e inteligencia artificial',
   titleAccent: 'al servicio del negocio.',
   intro:
-    'Soy Víctor, desarrollador full stack en Sevilla. Construyo aplicaciones web, automatizo procesos y aplico IA donde de verdad aporta. Siempre empezando por el problema, no por la tecnología.',
+    'Soy Víctor García Garrido, desarrollador full stack en Sevilla. Construyo aplicaciones web, automatizo procesos y aplico IA donde de verdad aporta. Siempre empezando por el problema, no por la tecnología.',
   now: 'Full Stack en Tragsatec y especializado en IA aplicada',
   photo: '/images/perfil.jpg', // guardada en public/images
 };

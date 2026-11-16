@@ -19,7 +19,7 @@ import { hero, site } from '../data/site';
     <div class="portrait">
       {
         hero.photo ? (
-          <img class="photo" src={hero.photo} alt={`Foto de ${site.name}`} width="380" height="475" />
+          <img class="photo" src={hero.photo} alt={`Foto de ${site.fullName}`} width="380" height="475" />
         ) : (
           <div class="photo placeholder" role="img" aria-label="Espacio para tu foto">
             [ Tu foto ]
